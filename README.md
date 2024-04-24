@@ -1,0 +1,1 @@
+This is a new flask app I am working on. It is expected to work like common ecommerce website with more unique features. You can clone the repo and create a virtual environment to install the packaages in the requirements.txt file. With this, the app will run and work well. Thanks 
