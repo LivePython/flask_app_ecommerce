@@ -80,7 +80,7 @@
 <!-- Navbar end -->
 <div class="container mt-5">
   <div class="row">
-    {% if brand %} {% for b in brand %}
+    {% if brand %} {% for b in brand.items %}
     <div class="col-md-3">
       <div class="card mb-4">
         <img
@@ -109,15 +109,43 @@
           {% endif %}
         </div>
         <div class="card-footer text-center">
-          <a href="#" class="float-left btn btn-sn btn-warning">Details</a>
+          <a href="{{url_for('single_page', id=b.id)}}" class="float-left btn btn-sn btn-warning">Details</a>
           <a href="#" class="float-right btn btn-sn btn-primary">Add to cart</a>
         </div>
       </div>
     </div>
     {% endfor %} 
   </div>
+      <div class="row">
+      <div class="col text text-center mt-2">
+        {% if brand.has_prev %}
+          <a href="{{ url_for('get_brand', page=brand.prev_num) }}" class="btn btn-outline-info btn-sm">Previous</a>
+        {% endif %}
+
+        {% if brand.total > 4 %}
+
+          {% for page_num in brand.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %} 
+            {% if page_num %}
+              {% if brand.page == page_num %}
+                <a href="{{ url_for('get_brand', id=get_brand.id, page=page_num) }}" class="btn btn-info btn-sm">{{page_num}}</a>
+              {% else %}
+                <a href="{{ url_for('get_brand', id=get_brand.id, page=page_num) }}" class="btn btn-outline-info btn-sm">{{page_num}}</a>
+              {% endif %}
+            {% else %}
+              ...
+            {% endif %}
+          {% endfor %}
+
+        {% endif %}
+
+        {% if brand.has_next %}
+          <a href="{{ url_for('get_brand', id=get_brand.id, page=brand.next_num) }}" class="btn btn-outline-info btn-sm">Next</a>
+        {% endif %}
+      </div>
+    </div>
+
   <div class="row"></div>
-    {% elif cat %} {% for c in cat %}
+    {% elif cat %} {% for c in cat.items %}
     
     <div class="col-md-3">
       <div class="card mb-4">
@@ -147,12 +175,39 @@
           {% endif %}
         </div>
         <div class="card-footer text-center">
-          <a href="#" class="float-left btn btn-sn btn-warning">Details</a>
+          <a href="{{url_for('single_page', id=c.id)}}" class="float-left btn btn-sn btn-warning">Details</a>
           <a href="#" class="float-right btn btn-sn btn-primary">Add to cart</a>
         </div>
       </div>
     </div>
     {% endfor %} 
+    </div>
+    <div class="row">
+      <div class="col text text-center mt-2">
+        {% if cat.has_prev %}
+          <a href="{{ url_for('get_category', id=get_cat.id, page=cat.prev_num) }}" class="btn btn-outline-info btn-sm">Previous</a>
+        {% endif %}
+        
+        {% if cat.total > 4 %}
+
+            {% for page_num in cat.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %} 
+              {% if page_num %}
+                {% if cat.page == page_num %}
+                  <a href="{{ url_for('get_category', id=get_cat.id, page=page_num) }}" class="btn btn-info btn-sm">{{page_num}}</a>
+                {% else %}
+                  <a href="{{ url_for('get_category', id=get_cat.id, page=page_num) }}" class="btn btn-outline-info btn-sm">{{page_num}}</a>
+                {% endif %}
+              {% else %}
+                ...
+              {% endif %}
+            {% endfor %}
+
+        {%endif %}
+
+        {% if cat.has_next %}
+          <a href="{{ url_for('get_category', id=get_cat.id, page=cat.next_num) }}" class="btn btn-outline-info btn-sm">Next</a>
+        {% endif %}
+      </div>
     </div>
 
     <div class="row">
@@ -186,7 +241,7 @@
           {% endif %}
         </div>
         <div class="card-footer text-center">
-          <a href="#" class="float-left btn btn-sn btn-warning">Details</a>
+          <a href="{{url_for('single_page', id=product.id)}}" class="float-left btn btn-sn btn-warning">Details</a>
           <a href="#" class="float-right btn btn-sn btn-primary">Add to cart</a>
         </div>
       </div>
@@ -196,25 +251,26 @@
     <div class="row">
       <div class="col text text-center mt-2">
         {% if products.has_prev %}
-          <a href="{{ url_for('home', page=products.prev_num) }}" class="btn btn-outkine-info btn-sm">Previous</a>
+          <a href="{{ url_for('home', page=products.prev_num) }}" class="btn btn-outline-info btn-sm">Previous</a>
         {% endif %}
-        {% for page_num in products.iter_pages() %} 
+
+        {% for page_num in products.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %} 
           {% if page_num %}
             {% if products.page == page_num %}
               <a href="{{ url_for('home', page=page_num) }}" class="btn btn-info btn-sm">{{page_num}}</a>
             {% else %}
-              <a href="{{ url_for('home', page=page_num) }}" class="btn btn-outkine-info btn-sm">{{page_num}}</a>
+              <a href="{{ url_for('home', page=page_num) }}" class="btn btn-outline-info btn-sm">{{page_num}}</a>
             {% endif %}
           {% else %}
-          ...
+            ...
           {% endif %}
         {% endfor %}
 
         {% if products.has_next %}
-          <a href="{{ url_for('home', page=products.next_num) }}" class="btn btn-outkine-info btn-sm">Next</a>
+          <a href="{{ url_for('home', page=products.next_num) }}" class="btn btn-outline-info btn-sm">Next</a>
         {% endif %}
       </div>
-  </div>
+    </div>
   {% endif%}
 </div>
 

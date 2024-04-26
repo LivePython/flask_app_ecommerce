@@ -9,24 +9,40 @@ import secrets, os
 def home():
     # Pagination
     page = request.args.get('page', 1, type=int)
-    products = Addproduct.query.filter(Addproduct.stock > 0).paginate(page=page, per_page=4)
+    products = Addproduct.query.filter(Addproduct.stock > 0).order_by(Addproduct.id.desc()).paginate(page=page, per_page=4)
     brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
     categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
     return render_template('products/index.html', brands=brands, products=products, categories=categories)
 
-@app.route('/brand/<int:id>')
-def get_brand(id):
-    get_brand_product = Addproduct.query.filter_by(brand_id=id)
+
+@app.route('/product/<int:id>')
+def single_page(id):
+    page = request.args.get('page', 1, type=int)
+    products = Addproduct.query.filter(Addproduct.stock > 0).order_by(Addproduct.id.desc()).paginate(page=page, per_page=4)
+    product = Addproduct.query.get_or_404(id)
     brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
     categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
-    return render_template('products/index.html', brand=get_brand_product, brands=brands, categories=categories)
+    return render_template('products/singlepage.html', product=product, brands=brands, categories=categories, products=products)
+
+
+@app.route('/brand/<int:id>')
+def get_brand(id):
+    page = request.args.get('page', 1, type=int)
+    get_brand = Category.query.filter_by(id=id).first_or_404()
+    get_brand_product = Addproduct.query.filter_by(brand=get_brand).paginate(page=page, per_page=4)
+    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
+    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
+    return render_template('products/index.html', brand=get_brand_product, brands=brands, categories=categories, get_brand=get_brand)
 
 @app.route('/categories/<int:id>')
 def get_category(id):
-    get_cat_product = Addproduct.query.filter_by(category_id=id)
+    page = request.args.get('page', 1, type=int)
+    get_cat = Category.query.filter_by(id=id).first_or_404()
+    get_cat_product = Addproduct.query.filter_by(category=get_cat).paginate(page=page, per_page=4)
     brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
     categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
-    return render_template('products/index.html', cat=get_cat_product, brands=brands, categories=categories)
+    return render_template('products/index.html', cat=get_cat_product, brands=brands, categories=categories, get_cat=get_cat)
+
 @app.route('/addbrand', methods=["GET", "POST"])
 def addbrand():
     if 'email' not in session:
