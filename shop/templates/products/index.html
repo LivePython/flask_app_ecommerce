@@ -63,6 +63,11 @@
               {% endfor %}
             </div>
           </div>
+          <li class="nav-item">
+            <a href="{{url_for('getcarts')}}" class="nav-link" tabindex="-1">
+              Cart ({{session['Shoppingcart']|length}})</a
+            >
+          </li>
         </ul>
         <form class="d-flex">
           <input
@@ -110,7 +115,26 @@
         </div>
         <div class="card-footer text-center">
           <a href="{{url_for('single_page', id=b.id)}}" class="float-left btn btn-sn btn-warning">Details</a>
-          <a href="#" class="float-right btn btn-sn btn-primary">Add to cart</a>
+          <form action="{{url_for('AddCart')}}" method="post">
+            <input type="hidden" name="product_id" value="{{b.id}}" />
+            <button type="submit" class="btn-sm btn-primary float-right">Add Cart</button>
+        
+            <input
+              type="hidden"
+              name="quantity"
+              id=""
+              value="1"
+              min="1"
+              max="{{b.stock}}"
+            />
+            {% set colors = b.colors.split(',') %}
+          
+            <select name="colors" id="colors" style="visibility: hidden;">
+              {% for color in colors %} {% set col = color.split(':') %}
+              <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+              {% endfor%}
+            </select>
+          </form>
         </div>
       </div>
     </div>
@@ -176,7 +200,26 @@
         </div>
         <div class="card-footer text-center">
           <a href="{{url_for('single_page', id=c.id)}}" class="float-left btn btn-sn btn-warning">Details</a>
-          <a href="#" class="float-right btn btn-sn btn-primary">Add to cart</a>
+          <form action="{{url_for('AddCart')}}" method="post">
+            <input type="hidden" name="product_id" value="{{c.id}}" />
+            <button type="submit" class="btn-sm btn-primary float-right">Add Cart</button>
+        
+            <input
+              type="hidden"
+              name="quantity"
+              id=""
+              value="1"
+              min="1"
+              max="{{c.stock}}"
+            />
+            {% set colors = c.colors.split(',') %}
+          
+            <select name="colors" id="colors" style="visibility: hidden;">
+              {% for color in colors %} {% set col = color.split(':') %}
+              <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+              {% endfor%}
+            </select>
+          </form>
         </div>
       </div>
     </div>
@@ -241,8 +284,28 @@
           {% endif %}
         </div>
         <div class="card-footer text-center">
-          <a href="{{url_for('single_page', id=product.id)}}" class="float-left btn btn-sn btn-warning">Details</a>
-          <a href="#" class="float-right btn btn-sn btn-primary">Add to cart</a>
+          <a href="{{url_for('single_page', id=product.id)}}" class="float-left btn btn-sm btn-warning">Details</a>
+
+        <form action="{{url_for('AddCart')}}" method="post">
+        <input type="hidden" name="product_id" value="{{product.id}}" />
+        <button type="submit" class="btn-sm btn-primary float-right">Add Cart</button>
+     
+        <input
+          type="hidden"
+          name="quantity"
+          id=""
+          value="1"
+          min="1"
+          max="{{product.stock}}"
+        />
+        {% set colors = product.colors.split(',') %}
+       
+        <select name="colors" id="colors" style="visibility: hidden;">
+          {% for color in colors %} {% set col = color.split(':') %}
+          <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+          {% endfor%}
+        </select>
+      </form>
         </div>
       </div>
     </div>
@@ -271,7 +334,7 @@
         {% endif %}
       </div>
     </div>
-  {% endif%}
+   {% endif%}
 </div>
 
 {% endblock content %}
