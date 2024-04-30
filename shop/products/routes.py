@@ -34,6 +34,7 @@ def get_brand(id):
     categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
     return render_template('products/index.html', brand=get_brand_product, brands=brands, categories=categories, get_brand=get_brand)
 
+
 @app.route('/categories/<int:id>')
 def get_category(id):
     page = request.args.get('page', 1, type=int)
@@ -42,6 +43,7 @@ def get_category(id):
     brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
     categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
     return render_template('products/index.html', cat=get_cat_product, brands=brands, categories=categories, get_cat=get_cat)
+
 
 @app.route('/addbrand', methods=["GET", "POST"])
 def addbrand():
@@ -57,6 +59,7 @@ def addbrand():
         return redirect(url_for('addbrand'))
     return render_template('products/addbrand.html', brands='brands')
 
+
 @app.route('/updatebrand/<int:id>', methods=["GET", "POST"])
 def updatebrand(id):
     if 'email' not in session:
@@ -71,6 +74,7 @@ def updatebrand(id):
         return redirect(url_for('brands'))
     return render_template('products/updatebrand.html', updatebrand=updatebrand, title="Update Brand")
 
+
 @app.route('/deletebrand/<int:id>', methods=['POST'])
 def deletebrand(id):
     brand = Brand.query.get_or_404(id)
@@ -81,6 +85,7 @@ def deletebrand(id):
         return redirect(url_for('brands'))
     flash(f"The brand {brand.name} can't deleted from your datbase", 'success')
     return redirect(url_for('brands'))
+
 
 @app.route('/addcategory', methods=["GET", "POST"])
 def addcategory():
@@ -165,6 +170,7 @@ def addproduct():
         return redirect(url_for("admin"))
     return render_template('products/addproduct.html', form=form, brands=brands, categories=categories, title="Add Product page")
 
+
 @app.route("/updateproduct/<int:id>", methods=["GET", "POST"])
 def updateproduct(id):
     brands = Brand.query.all()
@@ -214,6 +220,7 @@ def updateproduct(id):
     form.description.data = product.description
     return render_template('products/updateproduct.html', form=form, brands=brands, categories=categories, 
                            product=product)
+
 
 @app.route("/deleteproduct/<int:id>", methods=["GET", "POST"])
 def deleteproduct(id):

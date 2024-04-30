@@ -8,24 +8,32 @@
         <th>name</th>
         <th>color</th>
         <th>Price</th>
+        <th>Stock</th>
         <th>Discount</th>
         <th>Subtotal</th>
         <th>Update</th>
         <th>Delete</th>
       </thead>
       <tbody>
-        {% for key, product in session['Shoppingcart'].items() %}
+        {% for key, product in session['Shoppingcart'].items() %} {% set
+        discount = (product.discount/100) * product.price|float %}
         <tr>
           <td>{{loop.index}}</td>
           <td>{{product.name}}</td>
           <td>{{product.colors}}</td>
           <td>${{product.price}}</td>
+          <td>{{product.quantity}}</td>
           {% if product.discount > 0 %}
-          <td>{{product.discount}}%</td>
+          <td>{{product.discount}}% &nbsp; is ${{discount}}</td>
           {% else %}
-          <td></td>
+          <td>No discount</td>
+          {% endif %} {% if product.discount > 0 %} {% set subtotal =
+          product.quantity|int * product.price|float %}
+          <td>${{"%0.2f"|format((subtotal|float) - discount)}}</td>
+          {% else %}
+          <td>${{product.price}}</td>
           {% endif %}
-          <td></td>
+
           <td><a href="#">Update</a></td>
           <td><a href="#">Delete</a></td>
         </tr>
