@@ -10,9 +10,10 @@ class CustomerRegistrationForm(Form):
     confirm = PasswordField("Repeat Password: ", [validators.DataRequired()])
     country = StringField('Country: ', [validators.DataRequired()])
     state = StringField('State: ', [validators.DataRequired()])
-    city = StringField('Username: ', [validators.DataRequired()])
+    city = StringField('City: ', [validators.DataRequired()])
     contact = StringField('Contact: ', [validators.DataRequired()])
     address = StringField('Address: ', [validators.DataRequired()])
+    zipcode = StringField('Zipcode: ', [validators.DataRequired()])
     profile = FileField("Profile: ", validators=[FileAllowed(['jpg', 'png', 'jpeg', 'gif'], 'Image only please!')])
 
     submit = SubmitField("Register")

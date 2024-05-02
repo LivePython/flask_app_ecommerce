@@ -68,15 +68,18 @@
             >
           </li>
         </ul>
-        <form class="d-flex float-right">
+        <form action="{{url_for('result')}}" class="form-inline my-2 my-lg-0">
           <!-- Changed float-right to justify-content-start -->
           <input
-            class="form-control me-2"
+            class="form-control mr-sm-2"
             type="search"
             placeholder="Search"
             aria-label="Search"
+            name="q"
           />
-          <button class="btn btn-outline-success" type="submit">Search</button>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+            Search
+          </button>
         </form>
       </div>
     </div>

@@ -3,6 +3,7 @@ from datetime import datetime
 
 
 class Addproduct(db.Model):
+        
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     price = db.Column(db.Numeric(10, 2), nullable=False)
@@ -27,6 +28,8 @@ class Addproduct(db.Model):
 
     def __repr__(self):
         return '<Post %r>' % self.title
+
+    __searchable__ = ['name', 'description']
     
 
 class Brand(db.Model):
