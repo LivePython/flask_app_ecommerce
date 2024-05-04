@@ -67,6 +67,21 @@
               Cart ({{session['Shoppingcart']|length}})</a
             >
           </li>
+          {% if current_user.is_authenticated %}
+          <li class="nav-item mt-2"><p>{{current_user.name}}</p></li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('customer_logout')}}">Logout</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('customer_register')}}"
+              >Sign In</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('customerLogin')}}">Login</a>
+          </li>
+          {% endif %}
         </ul>
         <form action="{{url_for('result')}}" class="form-inline my-2 my-lg-0">
           <!-- Changed float-right to justify-content-start -->

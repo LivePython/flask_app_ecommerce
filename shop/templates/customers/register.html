@@ -1,14 +1,17 @@
-{% extends 'layout.html' %} {% block content %} {% include 'navbar.html' %} {%
-from "_formhelpers.html" import render_field %}
-<div class="container">
+{% extends 'layout.html' %} {% block content %} {% from "_formhelpers.html"
+import render_field %}
+<div class="container mt-5">
   <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8 mb-2">
       <h1 class="bg-info text-center pb-2">Register</h1>
+      {% include '_messages.html' %}
     </div>
+
     <div class="col-md-2"></div>
   </div>
   <form action="" method="post">
+    {{form.csrf_token}}
     <div class="row">
       <div class="col-md-2"></div>
       <div class="col-md-4">

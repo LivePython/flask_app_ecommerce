@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_uploads import IMAGES, UploadSet, configure_uploads, patch_request_class
 import os
 from flask_msearch import Search
+from flask_login import LoginManager
 '''
 Run this to correct any error from flask_uploads
 pip install git+https://github.com/jugmac00/flask-reuploaded@53234dd
@@ -24,6 +25,12 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 search = Search(db=db)
 search.init_app(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view='customerLogin'
+login_manager.needs_refresh_message_category='danger'
+login_manager.login_message = u"Please login first"
 
 
 # Register al the routes here
